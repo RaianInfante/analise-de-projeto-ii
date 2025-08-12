@@ -1,5 +1,6 @@
 # Análise de Projetos II | VOX Note - Bot para Reuniões do Discord 
 - Aqui serão documentadas e "commitadas" todos as atualizações de código da matéria de Análise de Projetos II!
+- Matéria da grade currícular do 4ᵒ semestre de Análise e Desenvolvimento de Sistemas 
 ----------------------------------------------------------------------------------------------------------------
 ## Colaboradores
 - **Gerente**: Raian Infante
