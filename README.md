@@ -54,3 +54,16 @@ Com ele, as equipes podem focar no conteúdo da conversa enquanto o bot cuida da
 - Gerar o **Token do Bot**.
 
 ---
+## Instalacão 
+
+### Clonar o repositório
+`git clone https://github.com/usuario/repositorio.git`
+`cd repositorio`
+
+### Instalar dependências
+`pip install -r requirements.txt`
+
+### Configurar variáveis de ambiente
+### (Exemplo no arquivo .env.example)
+`DISCORD_TOKEN=seu_token_aqui`
+`OPENAI_API_KEY=sua_chave_api_aqui`
