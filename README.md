@@ -1,4 +1,4 @@
-#  Análise de Projetos II | VOX Note - Bot para Reuniões do Discord
+# VOX Note - Bot para Reuniões do Discord
 
 Projeto desenvolvido para a disciplina **Análise de Projetos II** do 4ᵒ semestre do curso de **Análise e Desenvolvimento de Sistemas** da **CEUNSP**.  
 O VOX Note é um bot para Discord que captura o áudio de reuniões, transcreve e gera atas resumidas com auxílio de inteligência artificial, facilitando o registro e a consulta de informações importantes.
@@ -11,8 +11,7 @@ O VOX Note é um bot para Discord que captura o áudio de reuniões, transcreve 
 - **Programador 1**: Enzo Vinicius  
 - **Programador 2**: Enzo Guimarães  
 - **Analista de Negócios**: Alisson Ryan  
-- **Documentador Técnico**: Samuel  
-- **Designer**: Allan Vinícius  
+- **Documentador Técnico**: Samuel    
 - **Inspetor de Qualidade**: Nicolas Lopes  
 - **Analista de Testes**: Igor Lopes  
 
