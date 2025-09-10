@@ -11,9 +11,12 @@ from dotenv import load_dotenv
 # Importar biblioteca para detectar dispositivo de áudio padrão
 try:
     from pycaw.pycaw import AudioUtilities
+
     PYCAW_AVAILABLE = True
 except ImportError:
-    print("Biblioteca pycaw não encontrada. Usando método alternativo para detecção de dispositivos de áudio.")
+    print(
+        "Biblioteca pycaw não encontrada. Usando método alternativo para detecção de dispositivos de áudio."
+    )
     PYCAW_AVAILABLE = False
 
 # Carregar variáveis de ambiente do arquivo .env
@@ -58,21 +61,35 @@ def get_default_audio_device():
     try:
         # Verifica se o microfone Fifine está disponível
         result = subprocess.run(
-            ["ffmpeg", "-hide_banner", "-list_devices",
-                "true", "-f", "dshow", "-i", "dummy"],
+            [
+                "ffmpeg",
+                "-hide_banner",
+                "-list_devices",
+                "true",
+                "-f",
+                "dshow",
+                "-i",
+                "dummy",
+            ],
             capture_output=True,
             text=True,
-            encoding='utf-8',
-            errors='replace'
+            encoding="utf-8",
+            errors="replace",
         )
 
         # Verifica pelo nome do dispositivo ou pelo nome alternativo
         if "Microfone (2- Fifine Microphone)" in result.stderr:
-            print("Usando Microfone (2- Fifine Microphone) como dispositivo de gravação")
-            return "Microfone (2- Fifine Microphone)"
-        elif "@device_cm_{33D9A762-90C8-11D0-BD43-00A0C911CE86}\\wave_{A19A230B-EE1D-48B0-BB7F-D7F94E1AE7CA}" in result.stderr:
             print(
-                "Usando nome alternativo do Fifine Microphone como dispositivo de gravação")
+                "Usando Microfone (2- Fifine Microphone) como dispositivo de gravação"
+            )
+            return "Microfone (2- Fifine Microphone)"
+        elif (
+            "@device_cm_{33D9A762-90C8-11D0-BD43-00A0C911CE86}\\wave_{A19A230B-EE1D-48B0-BB7F-D7F94E1AE7CA}"
+            in result.stderr
+        ):
+            print(
+                "Usando nome alternativo do Fifine Microphone como dispositivo de gravação"
+            )
             return "@device_cm_{33D9A762-90C8-11D0-BD43-00A0C911CE86}\\wave_{A19A230B-EE1D-48B0-BB7F-D7F94E1AE7CA}"
     except Exception as e:
         print(f"Erro ao verificar microfone Fifine: {e}")
@@ -105,12 +122,20 @@ def get_first_audio_device():
         # Se não conseguir, usa o método anterior para encontrar dispositivos
         # Executa o comando ffmpeg para listar dispositivos
         result = subprocess.run(
-            ["ffmpeg", "-hide_banner", "-list_devices",
-                "true", "-f", "dshow", "-i", "dummy"],
+            [
+                "ffmpeg",
+                "-hide_banner",
+                "-list_devices",
+                "true",
+                "-f",
+                "dshow",
+                "-i",
+                "dummy",
+            ],
             capture_output=True,
             text=True,
-            encoding='utf-8',
-            errors='replace'
+            encoding="utf-8",
+            errors="replace",
         )
 
         # Extrai a saída de erro (onde o ffmpeg lista os dispositivos)
@@ -120,7 +145,7 @@ def get_first_audio_device():
         audio_devices = []
         audio_section = False
 
-        for line in output.split('\n'):
+        for line in output.split("\n"):
             if "DirectShow audio devices" in line:
                 audio_section = True
                 continue
@@ -137,16 +162,19 @@ def get_first_audio_device():
 
         # Método alternativo: usar o comando PowerShell para listar dispositivos de áudio
         if not audio_devices:
-            ps_cmd = "Get-WmiObject Win32_SoundDevice | Select-Object -ExpandProperty Name"
+            ps_cmd = (
+                "Get-WmiObject Win32_SoundDevice | Select-Object -ExpandProperty Name"
+            )
             ps_result = subprocess.run(
-                ["powershell", "-Command", ps_cmd],
-                capture_output=True,
-                text=True
+                ["powershell", "-Command", ps_cmd], capture_output=True, text=True
             )
 
             if ps_result.returncode == 0:
-                audio_devices = [device.strip() for device in ps_result.stdout.split(
-                    '\n') if device.strip()]
+                audio_devices = [
+                    device.strip()
+                    for device in ps_result.stdout.split("\n")
+                    if device.strip()
+                ]
 
         # Retorna o primeiro dispositivo encontrado ou None se não encontrar nenhum
         return audio_devices[0] if audio_devices else None
@@ -160,7 +188,9 @@ def get_first_audio_device():
 async def gravar(ctx):
     """Inicia a gravação de áudio no canal de voz"""
     if not ctx.voice_client:
-        await ctx.send("O bot não está conectado a nenhum canal de voz. Use !entrar primeiro.")
+        await ctx.send(
+            "O bot não está conectado a nenhum canal de voz. Use !entrar primeiro."
+        )
         return
 
     guild_id = ctx.guild.id
@@ -183,7 +213,9 @@ async def gravar(ctx):
         audio_device = get_first_audio_device()
 
     if not audio_device:
-        await ctx.send("Não foi possível encontrar nenhum dispositivo de áudio. Verifique se há dispositivos de áudio disponíveis.")
+        await ctx.send(
+            "Não foi possível encontrar nenhum dispositivo de áudio. Verifique se há dispositivos de áudio disponíveis."
+        )
         return
 
     # Inicia a gravação usando ffmpeg
@@ -192,39 +224,63 @@ async def gravar(ctx):
         # Se o dispositivo contém caracteres especiais, usa o nome alternativo
         if "@device_cm_" in audio_device:
             # Usando o nome alternativo do dispositivo
-            process = subprocess.Popen([
-                "ffmpeg",
-                "-f", "dshow",  # Para Windows
-                # Usando o nome alternativo do dispositivo
-                "-i", f"audio={audio_device}",
-                "-acodec", "pcm_s16le",
-                "-ar", "44100",
-                "-ac", "2",
-                filename
-            ], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            process = subprocess.Popen(
+                [
+                    "ffmpeg",
+                    "-f",
+                    "dshow",  # Para Windows
+                    # Usando o nome alternativo do dispositivo
+                    "-i",
+                    f"audio={audio_device}",
+                    "-acodec",
+                    "pcm_s16le",
+                    "-ar",
+                    "44100",
+                    "-ac",
+                    "2",
+                    filename,
+                ],
+                stdin=subprocess.PIPE,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
         else:
             # Usando o nome normal do dispositivo
-            process = subprocess.Popen([
-                "ffmpeg",
-                "-f", "dshow",  # Para Windows
-                # Usando o dispositivo disponível
-                "-i", f"audio={audio_device}",
-                "-acodec", "pcm_s16le",
-                "-ar", "44100",
-                "-ac", "2",
-                filename
-            ], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            process = subprocess.Popen(
+                [
+                    "ffmpeg",
+                    "-f",
+                    "dshow",  # Para Windows
+                    # Usando o dispositivo disponível
+                    "-i",
+                    f"audio={audio_device}",
+                    "-acodec",
+                    "pcm_s16le",
+                    "-ar",
+                    "44100",
+                    "-ac",
+                    "2",
+                    filename,
+                ],
+                stdin=subprocess.PIPE,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
 
         recording_data[guild_id] = {
             "process": process,
             "filename": filename,
             "start_time": timestamp,
-            "audio_device": audio_device
+            "audio_device": audio_device,
         }
 
-        await ctx.send(f"Gravação iniciada! Use !parar para finalizar e salvar o arquivo.\n\nNota: Usando o dispositivo '{audio_device}' para capturar o áudio.")
+        await ctx.send(
+            f"Gravação iniciada! Use !parar para finalizar e salvar o arquivo.\n\nNota: Usando o dispositivo '{audio_device}' para capturar o áudio."
+        )
     except Exception as e:
-        await ctx.send(f"Erro ao iniciar gravação: {str(e)}\n\nVerifique se o dispositivo de áudio '{audio_device}' está disponível.")
+        await ctx.send(
+            f"Erro ao iniciar gravação: {str(e)}\n\nVerifique se o dispositivo de áudio '{audio_device}' está disponível."
+        )
 
 
 @bot.command()
@@ -243,7 +299,7 @@ async def parar(ctx):
         filename = rec_data["filename"]
 
         # Encerra o processo do ffmpeg (envia q para sair)
-        process.communicate(input=b'q')
+        process.communicate(input=b"q")
         process.terminate()
 
         # Calcula a duração da gravação
@@ -260,10 +316,11 @@ async def parar(ctx):
                         f"Áudio gravado\nDuração: {duration_str}\nDispositivo: {rec_data.get('audio_device', 'Desconhecido')}\nData: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
                     )
             except Exception as write_error:
-                print(
-                    f"Erro ao salvar arquivo de informações: {str(write_error)}")
+                print(f"Erro ao salvar arquivo de informações: {str(write_error)}")
 
-            await ctx.send(f"Gravação finalizada! Duração: {duration_str}\nArquivo salvo como: {filename}")
+            await ctx.send(
+                f"Gravação finalizada! Duração: {duration_str}\nArquivo salvo como: {filename}"
+            )
         else:
             await ctx.send(
                 f"Aviso: O arquivo de áudio parece estar vazio ou não foi criado corretamente.\nVerifique se o dispositivo '{rec_data.get('audio_device', 'Desconhecido')}' está capturando áudio."
@@ -285,7 +342,7 @@ async def sair(ctx):
         try:
             rec_data = recording_data[guild_id]
             process = rec_data["process"]
-            process.communicate(input=b'q')
+            process.communicate(input=b"q")
             process.terminate()
             del recording_data[guild_id]
         except Exception as e:
