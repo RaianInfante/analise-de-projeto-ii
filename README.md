@@ -66,3 +66,149 @@ Com ele, as equipes podem focar no conteúdo da conversa enquanto o bot cuida da
 ### (Exemplo no arquivo .env.example)
 `DISCORD_TOKEN=seu_token_aqui`
 `OPENAI_API_KEY=sua_chave_api_aqui`
+
+# 📝 VOX Note  
+### *Bot para Registro Automatizado de Reuniões no Discord*
+
+![Python](https://img.shields.io/badge/Python-3.10+-blue)
+![Discord.py](https://img.shields.io/badge/Discord.py-Bot-blueviolet)
+![Whisper](https://img.shields.io/badge/OpenAI-Whisper-green)
+![MIT License](https://img.shields.io/badge/License-MIT-yellow)
+![Status](https://img.shields.io/badge/Status-Ativo-success)
+
+---
+
+## 📌 Sobre
+O **VOX Note** é um bot projetado para registrar automaticamente reuniões realizadas no Discord.  
+Ele grava áudio, transcreve utilizando **Whisper**, e gera atas padronizadas com ajuda de IA.
+
+---
+
+## 🎯 Objetivos
+- Automatizar o registro de reuniões  
+- Evitar anotações manuais  
+- Aumentar a precisão das atas  
+- Facilitar a padronização e controle  
+- Integrar IA ao fluxo de documentação  
+
+---
+
+# 🧩 Arquitetura do Sistema
+
+~~~mermaid
+flowchart TD
+
+A[Usuários no Discord] --> B[Bot conecta ao canal de voz]
+B --> C[Captura de Áudio]
+C --> D[Transcrição via Whisper]
+D --> E[Sumarização com OpenAI]
+E --> F[Geração da Ata .txt / .docx]
+F --> G[Entrega da Ata ao Usuário]
+~~~
+
+---
+
+# ⚙️ Requisitos Técnicos
+
+## Software
+- Python **3.10+**
+- discord.py  
+- openai  
+- whisper ou faster-whisper  
+- aiohttp  
+- python-docx  
+- Dependências do `requirements.txt`
+
+## Hardware
+- CPU Dual-core  
+- 4 GB RAM  
+- 2 GB livre  
+- Internet estável  
+
+---
+
+# 📥 Instalação
+
+## 1. Clone o repositório
+~~~bash
+git clone https://github.com/usuario/repositorio.git
+cd repositorio
+~~~
+
+## 2. (Opcional) Crie o ambiente virtual
+~~~bash
+python -m venv venv
+source venv/bin/activate   # Linux/macOS
+venv\Scripts\activate      # Windows
+~~~
+
+## 3. Instale as dependências
+~~~bash
+pip install -r requirements.txt
+~~~
+
+## 4. Configure as variáveis de ambiente
+Crie um arquivo **.env**:
+
+~~~env
+DISCORD_TOKEN=seu_token
+OPENAI_API_KEY=sua_chave
+~~~
+
+---
+
+# ▶️ Como Usar
+
+## Inicie o bot
+~~~bash
+python bot.py
+~~~
+
+## Comandos principais (exemplo)
+- `!gravar` → Inicia a gravação  
+- `!parar` → Finaliza e gera a ata  
+- `!ata` → Envia a ata produzida  
+
+---
+
+# 🔄 Fluxo Operacional
+
+1. Bot entra no canal  
+2. Captura áudio  
+3. Trata e converte  
+4. Transcreve com Whisper  
+5. Resume com OpenAI  
+6. Gera a ata  
+7. Envia ao usuário  
+
+---
+
+# 📚 Estrutura do Projeto (sugerida)
+
+~~~
+📦vox-note
+ ┣ 📂audio
+ ┣ 📂transcricoes
+ ┣ 📂atas
+ ┣ 📜requirements.txt
+ ┣ 📜bot.py
+ ┣ 📜utils.py
+ ┣ 📜processamento.py
+ ┣ 📜README.md
+ ┗ 📜.env
+~~~
+
+---
+
+# 🛡️ Licença
+Distribuído sob a licença **MIT**.
+
+---
+
+# 🤝 Contribuições
+Pull Requests são bem-vindos!
+
+---
+
+# 📩 Contato
+Se quiser expandir o projeto ou integrar novas funções, é só chamar 🚀
