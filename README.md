@@ -30,8 +30,7 @@ O VOX Note é um bot para Discord que captura o áudio de reuniões, transcreve 
 
 ## 📌 Sobre
 O **VOX Note** é um bot projetado para registrar automaticamente reuniões realizadas no Discord.  
-Ele grava áudio, transcreve utilizando **Whisper**, e gera atas padronizadas com ajuda de IA.
-
+Ele grava áudio, transcreve utilizando **Whisper**, e gera atas padronizadas com auxilio de uma API da **OpenAI**.
 ---
 
 ## 🎯 Objetivos
