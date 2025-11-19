@@ -101,8 +101,8 @@ flowchart TD
 A[Usuários no Discord] --> B[Bot conecta ao canal de voz]
 B --> C[Captura de Áudio]
 C --> D[Transcrição via Whisper]
-D --> E[Sumarização com OpenAI]
-E --> F[Geração da Ata .txt / .docx]
+D --> E[Resumo com OpenAI]
+E --> F[Geração da Ata .pdf]
 F --> G[Entrega da Ata ao Usuário]
 ~~~
 
